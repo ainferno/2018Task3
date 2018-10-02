@@ -15,6 +15,8 @@ void clean_string_list(string_list str)
     for(;i < string_list_size_current;i++)
         free(str[i]);
     free(str);
+    string_list_size_current = 0;
+    string_list_size = 10;
 }
 void print_string_list(string_list str)
 {
@@ -24,6 +26,6 @@ void print_string_list(string_list str)
 }
 string_list init_string_list()
 {
-    string_list str_list = (char**)malloc(string_list_size * sizeof(char));
+    string_list str_list = (char**)malloc(string_list_size * sizeof(char*));
     return str_list;
 }
