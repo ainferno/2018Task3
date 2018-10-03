@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 //Types
-typedef char **string_list;
+typedef char **string_list;//Массив строк
 //Variables
-int string_list_size = 10;
-int string_list_size_current = 0;
+int string_list_size = 10;//Текущий максимальный размер массива
+int string_list_size_current = 0;//Текущий размер массива
 //Functions
-void copy_str(char*, char*);
-string_list add_string_list(string_list, char*, int);
-void clean_string_list(string_list);
-void print_string_list(string_list);
-void sort_string_list(string_list);
-string_list init_string_list();
+void copy_str(char*, char*);//Копирует строку 2 в строку 1 посимвольно
+string_list add_string_list(string_list, char*, int);//Добавляет строку в конец массива строк, возвращает этот массив
+void clean_string_list(string_list);//Отчищает массив. НЕ ВЕРНО ТАК КАК ПРИСУТСВУЕТ УТЕЧКА ПАМЯТИ
+void print_string_list(string_list);//Выводит массив строк в stdout, через пробелы заканчивая \n
+void sort_string_list(string_list);//Сортирует массив строк по возрастанию методом простого выбора
+string_list init_string_list();//Выделяет памят под массив строк, возвращает этот массив
 
 void copy_str(char *a, char *b)
 {
@@ -23,15 +23,15 @@ void copy_str(char *a, char *b)
 
 string_list add_string_list(string_list str, char *elem, int elem_size)
 {
-    if(string_list_size_current == string_list_size)
+    if(string_list_size_current == string_list_size)//Если выходим за пределы массива то перевыделяем память под него
     {
         string_list_size*=2;
         str = realloc(str, sizeof(char*) * string_list_size);
     }
     str[string_list_size_current] = (char*)malloc(sizeof(char) * elem_size);//ERROR
-    copy_str(str[string_list_size_current], elem);
-    string_list_size_current++;
-    return str;
+    copy_str(str[string_list_size_current], elem);//Нельзя делать простое приравнивание так как в таком случае
+    string_list_size_current++;//если вне функции очистить то что передали очистим, то и тут пропадет
+    return str;//А мы хотим функцию которая работает корректно не зависимо от реализации программы ее вызывающей
 }
 void clean_string_list(string_list str)
 {
@@ -45,8 +45,8 @@ void print_string_list(string_list str)
 {
     for(int i = 0;i < string_list_size_current;i++)
     {
-        int size_of_str = strlen(str[i])+1;
-        char out_buff[size_of_str];
+        int size_of_str = strlen(str[i])+1;//Так как мы выводим в файл, то мы используем буфер чтобы
+        char out_buff[size_of_str];//Добавить символы ' '/'\n' в конец
         copy_str(out_buff, str[i]);
         // out_buff[size_of_str-1] = '\n';
         out_buff[size_of_str-1] = (i == string_list_size_current-1) ? '\n' : ' ';
