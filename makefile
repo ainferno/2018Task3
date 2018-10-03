@@ -1,2 +1,2 @@
 all:
-	gcc task3.c str_list.c buffer.c
+	gcc str_list.c buffer.c task3.c
