@@ -3,45 +3,93 @@
 #include "str_list.h"
 #include "buffer.h"
 
-void input(string_list lst)
+//str = (char*)malloc(N*sizeof(char));
+//str = (char*)realloc(str, N*sizeof(char));
+
+string_list input(string_list lst)
 {
     char *str = NULL;
     char c;
-    int N = 10, i = 0;
+    int N = 10, i = 0, pp_entered = 0;
     str = (char*)malloc(N*sizeof(char));
 
-    for(;(c = get_char()) != '\0';i++)
+    while((c = get_char()) != '\0')
     {
         if(i == N)
         {
             N*=2;
             str = (char*)realloc(str, N*sizeof(char));
         }
-        if( i > 0)
+        switch(c)
         {
-            switch(c)
-            {
-                case ' ': case '\n': case '\t':
-                    N = 10;
+            case '|': case '&': case '>':
+                if(i!=0)
+                {
                     str[i] = '\0';
-                    add_string_list(lst, str);
+                    lst = add_string_list(lst,str,i+1);
+
+                    free(str);
+                    N = 10, i = 0;
                     str = (char*)malloc(N*sizeof(char));
-                    i = -1;
-            }
+                }
+                while(c == '|' || c == '&' || c == '>')
+                {
+                    str[i++] = c;
+                    c = get_char();
+                    if(c == str[i-1])
+                    {
+                        str[i++] = c;
+                        c = get_char();
+                    }
+                    str[i] = '\0';
+                    lst = add_string_list(lst,str,i+1);
+
+                    free(str);
+                    N = 10, i = 0;
+                    str = (char*)malloc(N*sizeof(char));
+                }
+                break;
+            case ';': case '<': case '(': case ')':
+                if(i!=0)
+                {
+                    str[i] = '\0';
+                    lst = add_string_list(lst,str,i+1);
+
+                    free(str);
+                    N = 10, i = 0;
+                    str = (char*)malloc(N*sizeof(char));
+                }
+                str[i++] = c;
+            case ' ': case '\t': case '\n':
+                if(i!=0)
+                {
+                    str[i] = '\0';
+                    lst = add_string_list(lst,str,i+1);
+
+                    free(str);
+                    N = 10, i = 0;
+                    str = (char*)malloc(N*sizeof(char));
+                }
         }
-        if(c != ' ' && c != '\n' && c != '\t')
+        if(c != ' ' && c != '\t' && c != '\n' && 
+           c != ';' && c != '<'  && c != '('  && c != ')' &&
+           c != '|' && c != '&'  && c != '>')
         {
-            str[i] = c;
+            str[i++] = c;
         }
-        else
-            i--;
     }
+
+    free(str);
+    return lst;
 }
 
 int main()
 {
     string_list lst = init_string_list();
-    input(lst);
+    lst = input(lst);
     print_string_list(lst);
+    sort_string_list(lst);
+    print_string_list(lst);
+    clean_string_list(lst);
     return 0;
 }
