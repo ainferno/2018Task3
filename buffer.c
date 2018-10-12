@@ -1,4 +1,4 @@
-#include "main.h"  
+#include "buffer.h"  
 
 int fill_buf(char *buf)
 {
