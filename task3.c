@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "str_list.h"
-#include "buffer.h"
-
+// #include "str_list.h";
 //str = (char*)malloc(N*sizeof(char));
 //str = (char*)realloc(str, N*sizeof(char));
 
