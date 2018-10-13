@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sh.h"
 //str = (char*)malloc(N*sizeof(char));
 //str = (char*)realloc(str, N*sizeof(char));
@@ -13,7 +11,6 @@ string_list input(string_list lst)
     char c;//Текущий символ
     int N = 10, i = 0;//N - макс размер текущей строки, i - размер текущей строки
     str = (char*)malloc(N*sizeof(char));//Выделяем память
-
     while((c = get_char()) != '\0')
     {
         if(i == N)//Если считанная строка не укладывается в нашу строку то перевыделяем память увеличивая в 2 раза место
@@ -78,6 +75,15 @@ string_list input(string_list lst)
             c == '&' || c == '_' || c == '/' || c == '.')
         {
             str[i++] = c;
+        }
+        else
+        {
+            if(!(c == ' ' || c == '\n' || c == '\t' || 
+                c == '&' || c == '|' || c == '>' || 
+                c == ';' || c == '<' || c == '(' || c == ')'))
+            {
+                fwrite("\nERROR!WRONG SYMBOL ENTERED, IT WAS IGNORED\n", sizeof(char), 44, stderr);
+            }
         }
     }
 

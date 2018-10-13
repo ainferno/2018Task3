@@ -4,9 +4,10 @@
 Task3
 
 Task3.c - main, input
-buffer.h - функции работы с буфером
-str_list - функции работы с массивом строк
+buffer.c - функции работы с буфером
+str_list.c - функции работы с массивом строк
+sh.h - header для всех трех программ
 
 >./make
 
->./a.out
+>./main.out

@@ -1,6 +1,6 @@
-all: main.exe
-main.exe: buffer.o task3.o str_list.o
-	gcc buffer.o str_list.o task3.o -o main.exe
+all: main.out
+main.out: buffer.o task3.o str_list.o
+	gcc buffer.o str_list.o task3.o -o main.out
 task3.o: task3.c sh.h
 	gcc -c task3.c
 buffer.o: buffer.c sh.h
@@ -8,4 +8,4 @@ buffer.o: buffer.c sh.h
 str_list.o: str_list.c sh.h
 	gcc -c str_list.c
 clean:
-	rm main.exe task3.o buffer.o str_list.o
+	rm main.out task3.o buffer.o str_list.o

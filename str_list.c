@@ -20,16 +20,17 @@ string_list add_string_list(string_list str, char *elem, int elem_size)
     }
     str[string_list_size_current] = (char*)malloc(sizeof(char) * elem_size);//ERROR
     copy_str(str[string_list_size_current], elem);//Нельзя делать простое приравнивание так как в таком случае
-    string_list_size_current++;//если вне функции очистить то что передали очистим, то и тут пропадет
+    str[++string_list_size_current] = NULL;//если вне функции очистить то что передали очистим, то и тут пропадет
     return str;//А мы хотим функцию которая работает корректно не зависимо от реализации программы ее вызывающей
 }
 void clean_string_list(string_list str)
 {
     // printf("POINT CUR = %d, MAX = %d\n", string_list_size_current, string_list_size);
     // printf("str = %s\n", str[0]); 
-    for(int i = 0;i < string_list_size_current;i++)// WHY ERROR IF UNCOMMENTED?
-        free(str[i]);// Тут утечка памяти, но я пока не знаю почему, похоже на ошибку подобную такой в таске 2.5
+    for(int i = 0;i < string_list_size_current;i++)
+        free(str[i]);
     free(str);
+    string_list_size = 10, string_list_size_current = 0;
 }
 void print_string_list(string_list str)
 {
