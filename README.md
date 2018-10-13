@@ -9,6 +9,4 @@ str_list.c - функции работы с массивом строк
 sh.h - header для всех трех программ  
 
 >./make  
-
-
->./main.out  
+>./main.out  s
