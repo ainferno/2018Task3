@@ -10,4 +10,5 @@ sh.h - header для всех трех программ
 
 >./make  
 
+
 >./main.out  
