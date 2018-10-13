@@ -1,4 +1,5 @@
-#include "str_list.h"
+#include "sh.h"
+// #include "str_list.h"
 
 void copy_str(char *a, char *b)
 {
