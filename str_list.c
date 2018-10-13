@@ -1,5 +1,8 @@
 #include "sh.h"
 // #include "str_list.h"
+//Variables
+int string_list_size = 10;//Текущий максимальный размер массива
+int string_list_size_current = 0;//Текущий размер массива
 
 void copy_str(char *a, char *b)
 {

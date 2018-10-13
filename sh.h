@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,9 +6,6 @@
 #define buf_size 10u //Определяем размер буффера
 //Types
 typedef char **string_list;//Массив строк
-//Variables
-int string_list_size = 10;//Текущий максимальный размер массива
-int string_list_size_current = 0;//Текущий размер массива
 //Functions
 int fill_buf(char*);//Заполняет буфер, возвращает количество считанных символов
 void clean_buf(char*);//Отчищает буфер
