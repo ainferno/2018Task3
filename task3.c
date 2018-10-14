@@ -1,11 +1,9 @@
 #include "sh.h"
-//str = (char*)malloc(N*sizeof(char));
-//str = (char*)realloc(str, N*sizeof(char));
 
 //Functions
-string_list input(string_list);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
+string_struct input(string_struct);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
 
-string_list input(string_list lst)
+string_struct input(string_struct lst)
 {
     char *str = NULL;//Текущая строка
     char c;//Текущий символ
@@ -78,11 +76,19 @@ string_list input(string_list lst)
         }
         else
         {
-            if(!(c == ' ' || c == '\n' || c == '\t' || 
-                c == '&' || c == '|' || c == '>' || 
-                c == ';' || c == '<' || c == '(' || c == ')'))
+            switch(c)
             {
-                fwrite("\nERROR!WRONG SYMBOL ENTERED, IT WAS IGNORED\n", sizeof(char), 44, stderr);
+                case ' ': case '\n': case '\t': 
+                case ';': case '<': case '(': case ')': 
+                case '&': case '|': case '>':
+                    break;
+                default:
+                    free(str);
+                    lst = clean_string_list(lst);
+                    clean_input();
+                    char message[100] = "\nError!Wrong symbol entered, program execution is aborted.\n";
+                    fwrite(message,sizeof(char), strlen(message),stderr);
+                    return lst;
             }
         }
     }
@@ -93,11 +99,11 @@ string_list input(string_list lst)
 
 int main()
 {
-    string_list lst = init_string_list();//Инициализируем массив символов
-    lst = input(lst);//Вводим слова в массив
-    print_string_list(lst);//Выводим массив
-    sort_string_list(lst);//Сортируем массив
-    print_string_list(lst);//Выводим массив
-    clean_string_list(lst);//Отчищаем массив
+    string_struct str_lst = init_string_list();//Инициализируем массив символов
+    str_lst = input(str_lst);//Вводим слова в массив
+    print_string_list(str_lst);//Выводим массив
+    sort_string_list(str_lst);//Сортируем массив
+    print_string_list(str_lst);//Выводим массив
+    clean_string_list(str_lst);//Отчищаем массив
     return 0;
 }

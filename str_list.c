@@ -1,8 +1,5 @@
 #include "sh.h"
 // #include "str_list.h"
-//Variables
-int string_list_size = 10;//Текущий максимальный размер массива
-int string_list_size_current = 0;//Текущий размер массива
 
 void copy_str(char *a, char *b)
 {
@@ -11,63 +8,66 @@ void copy_str(char *a, char *b)
     *a = '\0';
 }
 
-string_list add_string_list(string_list str, char *elem, int elem_size)
+string_struct add_string_list(string_struct str, char *elem, int elem_size)
 {
-    if(string_list_size_current == string_list_size)//Если выходим за пределы массива то перевыделяем память под него
+    if(str.size_current == str.size)//Если выходим за пределы массива то перевыделяем память под него
     {
-        string_list_size*=2;
-        str = realloc(str, sizeof(char*) * string_list_size);
+        str.size*=2;
+        str.array = realloc(str.array, sizeof(char*) * str.size);
     }
-    str[string_list_size_current] = (char*)malloc(sizeof(char) * elem_size);//ERROR
-    copy_str(str[string_list_size_current], elem);//Нельзя делать простое приравнивание так как в таком случае
-    str[++string_list_size_current] = NULL;//если вне функции очистить то что передали очистим, то и тут пропадет
+    str.array[str.size_current] = (char*)malloc(sizeof(char) * elem_size);
+    copy_str(str.array[str.size_current], elem);//Нельзя делать простое приравнивание так как в таком случае
+    str.array[++str.size_current] = NULL;//если вне функции очистить то что передали очистим, то и тут пропадет
     return str;//А мы хотим функцию которая работает корректно не зависимо от реализации программы ее вызывающей
 }
-void clean_string_list(string_list str)
+string_struct clean_string_list(string_struct str)
 {
-    // printf("POINT CUR = %d, MAX = %d\n", string_list_size_current, string_list_size);
-    // printf("str = %s\n", str[0]); 
-    for(int i = 0;i < string_list_size_current;i++)
-        free(str[i]);
-    free(str);
-    string_list_size = 10, string_list_size_current = 0;
+    for(int i = 0;i < str.size_current;i++)
+        free(str.array[i]);
+    free(str.array);
+    str.size = 10, str.size_current = 0;
+    return str;
 }
-void print_string_list(string_list str)
+void print_string_list(string_struct str)
 {
-    for(int i = 0;i < string_list_size_current;i++)
+    for(int i = 0;i < str.size_current;i++)
     {
-        int size_of_str = strlen(str[i])+1;//Так как мы выводим в файл, то мы используем буфер чтобы
+        int size_of_str = strlen(str.array[i])+1;//Так как мы выводим в файл, то мы используем буфер чтобы
         char out_buff[size_of_str];//Добавить символы ' '/'\n' в конец
-        copy_str(out_buff, str[i]);
-        // out_buff[size_of_str-1] = '\n';
-        out_buff[size_of_str-1] = (i == string_list_size_current-1) ? '\n' : ' ';
+        copy_str(out_buff, str.array[i]);
+        out_buff[size_of_str-1] = (i == str.size_current-1) ? '\n' : ' ';
         fwrite(out_buff, sizeof(char), size_of_str, stdout);
     }        
 }
-void sort_string_list(string_list str)
+void sort_string_list(string_struct str)
 {
     char *buff = NULL;
     int max = 0;
 
-    for(int i = 0;i < string_list_size_current;i++)
+    for(int i = 0;i < str.size_current;i++)
     {
         max = i;
-        for(int j = i+1;j < string_list_size_current;j++)
+        for(int j = i+1;j < str.size_current;j++)
         {
-            if(strcmp(str[max], str[j]) > 0)
+            if(strcmp(str.array[max], str.array[j]) > 0)
                 max = j;
         }
         if(max != i)
         {
-            buff = str[max];
-            str[max] = str[i];
-            str[i] = buff;
+            buff = str.array[max];
+            str.array[max] = str.array[i];
+            str.array[i] = buff;
         }
     }
 }
-string_list init_string_list()
+string_struct init_string_list()
 {
-    string_list str_list = (char**)malloc(string_list_size * sizeof(char*));
-    str_list[0] = NULL;
+    string_struct str_list;
+    str_list.array = (char**)malloc(10 * sizeof(char*));
+    str_list.array[0] = NULL;
+
+    str_list.size = 10;
+    str_list.size_current = 0;
+    
     return str_list;
 }

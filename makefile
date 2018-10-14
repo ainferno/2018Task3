@@ -1,5 +1,5 @@
 all: main.out
-main.out: buffer.o task3.o str_list.o
+main.out: buffer.o str_list.o task3.o
 	gcc buffer.o str_list.o task3.o -o main.out
 task3.o: task3.c sh.h
 	gcc -c task3.c

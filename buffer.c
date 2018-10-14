@@ -5,6 +5,11 @@ int fill_buf(char *buf)
 {
     return fread(buf, sizeof(char), buf_size, stdin);//Берем символы из ввода
 }
+void clean_input()
+{
+    char c;
+    while((c = getchar()) != '\n' && c != EOF);
+}
 void clean_buf(char *buf)
 {
     int i = 0;
