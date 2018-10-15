@@ -1,4 +1,5 @@
 #include "sh.h"
+#include "buf.h"
 
 //Functions
 string_struct input(string_struct);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
@@ -25,7 +26,8 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);
-                    N = input_size, i = 0;
+                    N = input_size;
+                    i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
                 while(c == '|' || c == '&' || c == '>')//Обрабатываем весь набор особыз спецсимволов | & > за раз, пока не встретим обычное слово
@@ -41,7 +43,8 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);//Обнуление всего
-                    N = input_size, i = 0;
+                    N = input_size;
+                    i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
                 break;
@@ -52,7 +55,8 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);//Обнуление всего
-                    N = input_size, i = 0;
+                    N = input_size;
+                    i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
                 str[i++] = c;//Записываем наше спецслово в строку, а дальше аналогично case ' ':...
@@ -63,7 +67,8 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);//Обнуление всего
-                    N = input_size, i = 0;
+                    N = input_size;
+                    i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
         }//Слова состоят из символов+букв+набора символов '&' '_' '/ '.'
@@ -86,9 +91,14 @@ string_struct input(string_struct lst)
                     free(str);
                     lst = clean_string_list(lst);
                     clean_input();
-                    char message[100] = "\nError!Wrong symbol entered, program execution is aborted.\n";
+
+                    char message[100] = "\nError!Wrong symbol entered. Please repeat.\n";
                     fwrite(message,sizeof(char), strlen(message),stderr);
-                    return lst;
+                    
+                    N = input_size;
+                    i = 0;
+                    str = (char*)malloc(N*sizeof(char));
+                    lst = init_string_list();
             }
         }
     }
