@@ -7,7 +7,7 @@ string_struct input(string_struct lst)
 {
     char *str = NULL;//Текущая строка
     char c;//Текущий символ
-    int N = 10, i = 0;//N - макс размер текущей строки, i - размер текущей строки
+    int N = input_size, i = 0;//N - макс размер текущей строки, i - размер текущей строки
     str = (char*)malloc(N*sizeof(char));//Выделяем память
     while((c = get_char()) != '\0')
     {
@@ -25,7 +25,7 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);
-                    N = 10, i = 0;
+                    N = input_size, i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
                 while(c == '|' || c == '&' || c == '>')//Обрабатываем весь набор особыз спецсимволов | & > за раз, пока не встретим обычное слово
@@ -41,7 +41,7 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);//Обнуление всего
-                    N = 10, i = 0;
+                    N = input_size, i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
                 break;
@@ -52,7 +52,7 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);//Обнуление всего
-                    N = 10, i = 0;
+                    N = input_size, i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
                 str[i++] = c;//Записываем наше спецслово в строку, а дальше аналогично case ' ':...
@@ -63,7 +63,7 @@ string_struct input(string_struct lst)
                     lst = add_string_list(lst,str,i+1);
 
                     free(str);//Обнуление всего
-                    N = 10, i = 0;
+                    N = input_size, i = 0;
                     str = (char*)malloc(N*sizeof(char));
                 }
         }//Слова состоят из символов+букв+набора символов '&' '_' '/ '.'

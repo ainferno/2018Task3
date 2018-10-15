@@ -1,9 +1,17 @@
-#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef buf_size
 #define buf_size 10u //Определяем размер буффера
+#endif
+#ifndef input_size
+#define input_size 10u //Определяем размер буффера
+#endif
+#ifndef array_size
+#define array_size 10u //Определяем размер буффера
+#endif
+
 //Types
 typedef char **string_list;//Массив строк
 

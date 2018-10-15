@@ -25,7 +25,7 @@ string_struct clean_string_list(string_struct str)
     for(int i = 0;i < str.size_current;i++)
         free(str.array[i]);
     free(str.array);
-    str.size = 10, str.size_current = 0;
+    str.size = array_size, str.size_current = 0;
     return str;
 }
 void print_string_list(string_struct str)
@@ -66,7 +66,7 @@ string_struct init_string_list()
     str_list.array = (char**)malloc(10 * sizeof(char*));
     str_list.array[0] = NULL;
 
-    str_list.size = 10;
+    str_list.size = array_size;
     str_list.size_current = 0;
     
     return str_list;
