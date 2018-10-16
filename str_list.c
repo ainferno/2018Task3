@@ -16,14 +16,23 @@ int copy_int(char *a, int b)
         b = -b;
         k = -1;
     }
-    for(;b > 0;b/=10,j++)
+    if(b == 0)
+    {
+        a[0] = '0';
+        a[1] = '\0';
+        i = 1;
+    }
+    else
+    {
+        for(;b > 0;b/=10,j++)
         c[j] = b%10 + '0';
-    c[j--] = '\0';
-    if(k == -1)
-        a[i++] = '-';
-    for(;j >= 0;i++,j--)
-        a[i] = c[j];
-    a[i] = '\0';
+        c[j--] = '\0';
+        if(k == -1)
+            a[i++] = '-';
+        for(;j >= 0;i++,j--)
+            a[i] = c[j];
+        a[i] = '\0';
+    }
     return i;
 }
 
@@ -44,22 +53,24 @@ string_struct clean_string_list(string_struct str)
     for(int i = 0;i < str.size_current;i++)
         free(str.array[i]);
     free(str.array);
+    str.size = array_size;
+    str.size_current = 0;
     return str;
 }
 void print_string_list(string_struct str)
 {
-    char out_buf_int[10];
+    char out_buf_int[12];
     int n = copy_int(out_buf_int,str.size_current)+1;
     out_buf_int[n-1] = '\n';
     fwrite(out_buf_int, sizeof(char), n, stdout);
     for(int i = 0;i < str.size_current;i++)
     {
         int size_of_str = strlen(str.array[i])+1;//Так как мы выводим в файл, то мы используем буфер чтобы
-        char out_buff[size_of_str];
-        copy_str(out_buff, str.array[i]);//Добавить символы ' '/'\n' в конец
-        // out_buff[size_of_str-1] = (i == str.size_current-1) ? '\n' : ' ';
-        out_buff[size_of_str-1] = '\n';
-        fwrite(out_buff, sizeof(char), size_of_str, stdout);
+        char out_buf[size_of_str];
+        copy_str(out_buf, str.array[i]);//Добавить символы ' '/'\n' в конец
+        // out_buf[size_of_str-1] = (i == str.size_current-1) ? '\n' : ' ';
+        out_buf[size_of_str-1] = '\n';
+        fwrite(out_buf, sizeof(char), size_of_str, stdout);
     }        
 }
 void sort_string_list(string_struct str)

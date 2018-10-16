@@ -1,5 +1,7 @@
 #include "sh.h"
 #include "buf.h"
+#include<setjmp.h>
+jmp_buf begin;
 
 //Functions
 string_struct input(string_struct);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
@@ -10,7 +12,7 @@ string_struct input(string_struct lst)
     char c;//Текущий символ
     int N = input_size, i = 0;//N - макс размер текущей строки, i - размер текущей строки
     str = (char*)malloc(N*sizeof(char));//Выделяем память
-    while((c = get_char()) != '\0')
+    while((c = get_char(0)) != '\0')
     {
         if(i == N)//Если считанная строка не укладывается в нашу строку то перевыделяем память увеличивая в 2 раза место
         {
@@ -33,11 +35,11 @@ string_struct input(string_struct lst)
                 while(c == '|' || c == '&' || c == '>')//Обрабатываем весь набор особыз спецсимволов | & > за раз, пока не встретим обычное слово
                 {//Или не повторяющееся
                     str[i++] = c;
-                    c = get_char();
+                    c = get_char(0);
                     if(c == str[i-1])//Если символ повторятся т.е. мы имеем && || >>
                     {//Добавляем его в слово
                         str[i++] = c;
-                        c = get_char();
+                        c = get_char(0);
                     }
                     str[i] = '\0';//Записываем это слово в массив
                     lst = add_string_list(lst,str,i+1);
@@ -88,17 +90,14 @@ string_struct input(string_struct lst)
                 case '&': case '|': case '>':
                     break;
                 default:
-                    free(str);
                     lst = clean_string_list(lst);
-                    clean_input();
+                    get_char(1);
 
-                    char message[100] = "\nError!Wrong symbol entered. Please repeat.\n";
+                    char message[100] = "\nError!Symbol ' ' is not allowed. Please restart.\n";
+                    message[15] = c;
                     fwrite(message,sizeof(char), strlen(message),stderr);
                     
-                    N = input_size;
-                    i = 0;
-                    str = (char*)malloc(N*sizeof(char));
-                    lst = init_string_list();
+                    longjmp(begin,1);
             }
         }
     }
@@ -109,7 +108,10 @@ string_struct input(string_struct lst)
 
 int main()
 {
-    string_struct str_lst = init_string_list();//Инициализируем массив символов
+    string_struct str_lst;//Инициализируем массив символов
+    setjmp(begin);
+    printf("==>");
+    str_lst = init_string_list();
     str_lst = input(str_lst);//Вводим слова в массив
     print_string_list(str_lst);//Выводим массив
     sort_string_list(str_lst);//Сортируем массив
