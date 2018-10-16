@@ -5,7 +5,17 @@ jmp_buf begin;
 
 //Functions
 string_struct input(string_struct);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
+void error(char);
 
+void error(char c)
+{
+    char message[100] = "\nError!Symbol ' ' is not allowed. Please restart.\n";
+    message[15] = c;
+    fwrite(message,sizeof(char), strlen(message),stderr);//Выводим сообщение об ошибке
+    
+    get_char(1);
+    longjmp(begin,1);//В случае ошибки перезапускаем пронрамму
+}
 string_struct input(string_struct lst)
 {
     char *str = NULL;//Текущая строка
@@ -90,28 +100,21 @@ string_struct input(string_struct lst)
                 case '&': case '|': case '>':
                     break;
                 default:
-                    lst = clean_string_list(lst);
-                    get_char(1);
-
-                    char message[100] = "\nError!Symbol ' ' is not allowed. Please restart.\n";
-                    message[15] = c;
-                    fwrite(message,sizeof(char), strlen(message),stderr);
-                    
-                    longjmp(begin,1);//В случае ошибки перезапускаем пронрамму
+                    clean_string_list(lst);
+                    error(c);
             }
         }
     }
-
     free(str);//Отчистка памяти выделенной под строку
     return lst;
 }
 
 int main()
 {
-    string_struct str_lst;//Инициализируем массив символов
+    string_struct str_lst;
     setjmp(begin);
     printf("==>");
-    str_lst = init_string_list();
+    str_lst = init_string_list();//Инициализируем массив символов
     str_lst = input(str_lst);//Вводим слова в массив
     print_string_list(str_lst);//Выводим массив
     sort_string_list(str_lst);//Сортируем массив

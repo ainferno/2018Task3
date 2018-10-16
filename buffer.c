@@ -1,4 +1,4 @@
-#include "buf.h" 
+#include "buf.h"
 // #include "buffer.h"
 
 int fill_buf(char *buf)
@@ -13,6 +13,7 @@ void clean_input()
 void clean_buf(char *buf)
 {
     int i = 0;
+    int k = 0;
     for(;i < buf_size;i++, buf[i] = '\0');
 }
 char get_char(int STATE)
