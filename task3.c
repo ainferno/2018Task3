@@ -97,7 +97,7 @@ string_struct input(string_struct lst)
                     message[15] = c;
                     fwrite(message,sizeof(char), strlen(message),stderr);
                     
-                    longjmp(begin,1);
+                    longjmp(begin,1);//В случае ошибки перезапускаем пронрамму
             }
         }
     }
