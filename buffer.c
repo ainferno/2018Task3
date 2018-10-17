@@ -39,5 +39,5 @@ int get_char(char *buf, int *i)
         *i = buf_size;
         return END_OF_STR;
     }
-    return (unsigned char)buf[(*i)++];
+    return (unsigned char)buf[(*i)++];//Char -> unsigned char, так как потом переводим это число в int
 }

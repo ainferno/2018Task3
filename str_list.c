@@ -62,7 +62,7 @@ void print_string_list(string_struct str)
     char out_buf_int[12];
     int n = copy_int(out_buf_int,str.size_current)+1;
     out_buf_int[n-1] = '\n';
-    fwrite(out_buf_int, sizeof(char), n, stdout);
+    write(1,out_buf_int, n);
     for(int i = 0;i < str.size_current;i++)
     {
         int size_of_str = strlen(str.array[i])+1;//Так как мы выводим в файл, то мы используем буфер чтобы
@@ -70,7 +70,7 @@ void print_string_list(string_struct str)
         copy_str(out_buf, str.array[i]);//Добавить символы ' '/'\n' в конец
         // out_buf[size_of_str-1] = (i == str.size_current-1) ? '\n' : ' ';
         out_buf[size_of_str-1] = '\n';
-        fwrite(out_buf, sizeof(char), size_of_str, stdout);
+        write(1, out_buf,size_of_str);
     }        
 }
 void sort_string_list(string_struct str)
