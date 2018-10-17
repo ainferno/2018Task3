@@ -12,7 +12,7 @@ void error(char c, char *buf, int i)
 {
     int a = 0;
     char message[100] = "Error!Symbol ' ' is not allowed. Please restart.\n";
-    message[15] = c;
+    message[14] = c;
     write(2,message,strlen(message));//Выводим сообщение об ошибке
     
     a = get_char(buf,&i);
