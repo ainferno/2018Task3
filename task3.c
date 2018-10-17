@@ -159,6 +159,7 @@ string_struct input(string_struct lst, char *buf)
         c = get_char(buf,&buf_i);
     }
     free(str);//Отчистка памяти выделенной под строку
+    clean_string_list(lst);
     return lst;
 }
 
