@@ -62,16 +62,22 @@ void print_string_list(string_struct str)
     char out_buf_int[12];
     int n = copy_int(out_buf_int,str.size_current)+1;
     out_buf_int[n-1] = '\n';
+    write(1, "List size = ", 12);
     write(1,out_buf_int, n);
     for(int i = 0;i < str.size_current;i++)
     {
         int size_of_str = strlen(str.array[i])+1;//Так как мы выводим в файл, то мы используем буфер чтобы
         char out_buf[size_of_str];
+        n = copy_int(out_buf_int,i+1)+1;
+        out_buf_int[n-1] = ' ';
         copy_str(out_buf, str.array[i]);//Добавить символы ' '/'\n' в конец
         // out_buf[size_of_str-1] = (i == str.size_current-1) ? '\n' : ' ';
         out_buf[size_of_str-1] = '\n';
+        write(1, "Elem No.", 8);
+        write(1, out_buf_int, n);
+        write(1, "- ", 2);
         write(1, out_buf,size_of_str);
-    }        
+    }
 }
 void sort_string_list(string_struct str)
 {

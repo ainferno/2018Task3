@@ -47,8 +47,13 @@ string_struct input(string_struct lst, char *buf)
                         str[i] = '\0';
                         lst = add_string_list(lst,str,i+1);
 
-                        free(str);
-                        N = input_size;
+                        if(N >= 1000)
+                        {
+                            N = input_size;
+                            str = (char*)realloc(str, N*sizeof(char));
+                        }
+                        else
+                            str[0] = '\0';
                         i = 0;
                         str = (char*)malloc(N*sizeof(char));
                     }
@@ -64,8 +69,13 @@ string_struct input(string_struct lst, char *buf)
                         str[i] = '\0';//Записываем это слово в массив
                         lst = add_string_list(lst,str,i+1);
 
-                        free(str);//Обнуление всего
-                        N = input_size;
+                        if(N >= 1000)
+                        {
+                            N = input_size;
+                            str = (char*)realloc(str, N*sizeof(char));
+                        }
+                        else
+                            str[0] = '\0';
                         i = 0;
                         str = (char*)malloc(N*sizeof(char));
                     }
@@ -76,8 +86,13 @@ string_struct input(string_struct lst, char *buf)
                         str[i] = '\0';
                         lst = add_string_list(lst,str,i+1);
 
-                        free(str);//Обнуление всего
-                        N = input_size;
+                        if(N >= 1000)
+                        {
+                            N = input_size;
+                            str = (char*)realloc(str, N*sizeof(char));
+                        }
+                        else
+                            str[0] = '\0';
                         i = 0;
                         str = (char*)malloc(N*sizeof(char));
                     }
@@ -88,8 +103,13 @@ string_struct input(string_struct lst, char *buf)
                         str[i] = '\0';
                         lst = add_string_list(lst,str,i+1);
 
-                        free(str);//Обнуление всего
-                        N = input_size;
+                        if(N >= 1000)
+                        {
+                            N = input_size;
+                            str = (char*)realloc(str, N*sizeof(char));
+                        }
+                        else
+                            str[0] = '\0';
                         i = 0;
                         str = (char*)malloc(N*sizeof(char));
                     }
@@ -112,6 +132,7 @@ string_struct input(string_struct lst, char *buf)
                         break;
                     default:
                         clean_string_list(lst);
+                        free(str);
                         error(c, buf, buf_i);
                 }
             }
@@ -123,9 +144,12 @@ string_struct input(string_struct lst, char *buf)
             lst = add_string_list(lst,str,i+1);
         }
         free(str);//Обнуление всего
+        write(1, "\n", 1);
         print_string_list(lst);//Выводим массив
         sort_string_list(lst);//Сортируем массив
+        write(1, "\n", 1);
         print_string_list(lst);//Выводим массив
+        write(1, "\n", 1);
         lst = clean_string_list(lst);
         lst = init_string_list();
         N = input_size;
