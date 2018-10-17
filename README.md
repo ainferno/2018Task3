@@ -10,4 +10,4 @@ sh.h - header для str_list.c
 buf.h - header для buffer.c 
 
 >./make  
->./main.out  s
+>./main.out
