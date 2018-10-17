@@ -11,17 +11,15 @@ void clean_input()
     char c;
     while((c = getchar()) != '\n' && c != EOF);
 }
-void clean_buf(char *buf)
+int clean_buf(char *buf)
 {
     int i = 0;
-    int k = 0;
-    for(;i < buf_size;i++, buf[i] = '\0');
+    for(;(i < buf_size) && (buf[i] != '\n');i++, buf[i] = '\0');
+    return i;
 }
 int get_char(char *buf, int *i)
 {
     int n = 0;
-
-
     if(*i == buf_size)
     {
         clean_buf(buf);

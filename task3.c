@@ -6,15 +6,20 @@ jmp_buf begin;
 
 //Functions
 string_struct input(string_struct, char*);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
-void error(char, char*);
+void error(char, char*, int);
 
-void error(char c, char *buf)
+void error(char c, char *buf, int i)
 {
-    char message[100] = "\nError!Symbol ' ' is not allowed. Please restart.\n";
+    int a = 0;
+    char message[100] = "Error!Symbol ' ' is not allowed. Please restart.\n";
     message[15] = c;
-    fwrite(message,sizeof(char), strlen(message),stderr);//Выводим сообщение об ошибке
+    write(2,message,strlen(message));//Выводим сообщение об ошибке
     
-    clean_buf(buf);
+    a = get_char(buf,&i);
+    while(a != END_OF_STR && a != END_OF_INP)
+        a = get_char(buf,&i);
+    if(a == END_OF_INP)
+        clean_input();
     longjmp(begin,1);//В случае ошибки перезапускаем пронрамму
 }
 string_struct input(string_struct lst, char *buf)
@@ -107,7 +112,7 @@ string_struct input(string_struct lst, char *buf)
                         break;
                     default:
                         clean_string_list(lst);
-                        error(c, buf);
+                        error(c, buf, buf_i);
                 }
             }
             c = get_char(buf,&buf_i);
