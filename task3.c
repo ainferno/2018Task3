@@ -4,6 +4,7 @@
 
 jmp_buf begin;
 
+
 //Functions
 string_struct input(string_struct, char*);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
 void error(char, char*, int);
@@ -11,8 +12,8 @@ void error(char, char*, int);
 void error(char c, char *buf, int i)
 {
     int a = 0;
-    char message[100] = "Error!Symbol ' ' is not allowed. Please restart.\n";
-    message[14] = c;
+    char message[100] = "\nError!Symbol ' ' is not allowed. Please restart.\n\n";
+    message[15] = c;
     write(2,message,strlen(message));//Выводим сообщение об ошибке
     
     a = get_char(buf,&i);
@@ -55,7 +56,6 @@ string_struct input(string_struct lst, char *buf)
                         else
                             str[0] = '\0';
                         i = 0;
-                        str = (char*)malloc(N*sizeof(char));
                     }
                     while(c == '|' || c == '&' || c == '>')//Обрабатываем весь набор особыз спецсимволов | & > за раз, пока не встретим обычное слово
                     {//Или не повторяющееся
@@ -77,7 +77,6 @@ string_struct input(string_struct lst, char *buf)
                         else
                             str[0] = '\0';
                         i = 0;
-                        str = (char*)malloc(N*sizeof(char));
                     }
                     break;
                 case ';': case '<': case '(': case ')':
@@ -94,7 +93,6 @@ string_struct input(string_struct lst, char *buf)
                         else
                             str[0] = '\0';
                         i = 0;
-                        str = (char*)malloc(N*sizeof(char));
                     }
                     str[i++] = c;//Записываем наше спецслово в строку, а дальше аналогично case ' ':...
                 case ' ': case '\t': case '\n':
@@ -111,7 +109,6 @@ string_struct input(string_struct lst, char *buf)
                         else
                             str[0] = '\0';
                         i = 0;
-                        str = (char*)malloc(N*sizeof(char));
                     }
             }//Слова состоят из символов+букв+набора символов '&' '_' '/ '.'
             if( c >= '0' && c <= '9' ||
@@ -131,7 +128,7 @@ string_struct input(string_struct lst, char *buf)
                     case -1: case -2:
                         break;
                     default:
-                        clean_string_list(lst);
+                        lst = clean_string_list(lst);
                         free(str);
                         error(c, buf, buf_i);
                 }
