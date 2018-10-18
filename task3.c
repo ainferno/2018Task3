@@ -117,6 +117,7 @@ string_struct input(string_struct lst, char *buf)
                 c == '&' || c == '_' || c == '/' || c == '.')
             {
                 str[i++] = c;
+                c = get_char(buf,&buf_i);
             }
             else
             {
@@ -125,6 +126,7 @@ string_struct input(string_struct lst, char *buf)
                     case ' ': case '\n': case '\t': 
                     case ';': case '<': case '(': case ')': 
                     case '&': case '|': case '>':
+                        c = get_char(buf,&buf_i);
                     case -1: case -2:
                         break;
                     default:
@@ -133,7 +135,6 @@ string_struct input(string_struct lst, char *buf)
                         error(c, buf, buf_i);
                 }
             }
-            c = get_char(buf,&buf_i);
         }
         if(i!=0)
         {//Если слово не пустое(т.е. мы не смотрим на посл. пробелов) то добавляем его в массив
