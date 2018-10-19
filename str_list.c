@@ -38,7 +38,7 @@ int copy_int(char *a, int b)
 
 string_struct add_string_list(string_struct str, char *elem, int elem_size)
 {
-    if(str.size_current == str.size)//Если выходим за пределы массива то перевыделяем память под него
+    if(str.size_current+1 == str.size)//Если выходим за пределы массива то перевыделяем память под него
     {
         str.size*=2;
         str.array = realloc(str.array, sizeof(char*) * str.size);
