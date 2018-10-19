@@ -7,13 +7,13 @@ jmp_buf begin;
 
 //Functions
 string_struct input(string_struct, char*);//Считывает строку, добавляет в массив сстрок, возвращает этот массив
-void error(char, char*, int);
+void error(int, char*, int);
 
-void error(char c, char *buf, int i)
+void error(int c, char *buf, int i)
 {
     int a = 0;
     char message[100] = "\nError!Symbol ' ' is not allowed. Please restart.\n\n";
-    message[15] = c;
+    message[15] = (unsigned char)c;
     write(2,message,strlen(message));//Выводим сообщение об ошибке
     
     a = get_char(buf,&i);
